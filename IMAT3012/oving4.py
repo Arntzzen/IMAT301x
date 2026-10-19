@@ -42,9 +42,43 @@
 # =============================================
 #                   Oppgave 2
 # =============================================
-from sympy import symbols, cos, sin
-from sympy.plotting import plot3d_parametric_line
-import matplotlib.pyplot as plt
+# from sympy import symbols, cos, sin
+# from sympy.plotting import plot3d_parametric_line
+# import matplotlib.pyplot as plt
+# import numpy as np
 
-t = symbols("t")
-p = plot3d_parametric_line(6 * sin(t), 6 * cos(t), 4 * t, (t, 0, 4))
+# t = symbols("t")
+# # p = plot3d_parametric_line(6 * sin(t), 6 * cos(t), 4 * t, (t, 0, 4))
+
+# from scipy.integrate import quad
+# r = lambda r: 2*np.sqrt(13)
+
+# res = quad(r, 0, 4)
+# print(res)
+
+# =============================================
+#                   Oppgave 3
+# =============================================
+import sympy as sp
+from scipy.integrate import quad
+
+t = sp.symbols("t")
+
+a = 1.00005507808
+b = 0.55342925736
+c = 0.99873327689
+
+x = 1-(c*(1-t)**3 + 3*b*t*(1-t)**2)
+y = 1-(a*t**3 + 3*b*t**2*(1-t))
+
+# sp.plot_parametric((x,y), (t,0,1))
+
+dx = sp.diff(x, t)
+dy = sp.diff(y, t)
+
+speed = sp.sqrt(dx**2 + dy**2)
+f = sp.lambdify(t, speed, "numpy")
+
+L, error = quad(f, 0, 1)
+print(L)
+print(error)
