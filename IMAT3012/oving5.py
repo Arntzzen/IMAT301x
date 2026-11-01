@@ -44,6 +44,7 @@
 # =============================================
 #                   Oppgave 2
 # =============================================
+# a)
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -60,13 +61,87 @@ r2_sq = (X + 1)**2 + Y**2
 U = L*(X - 1)/r1_sq - M*(X + 1)/r2_sq
 V = L*Y/r1_sq - M*Y/r2_sq
 
-plt.figure(figsize=(8, 6))
-plt.streamplot(X, Y, U, V, density=2)
-# plt.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=10)
+# plt.figure(figsize=(8, 6))
+# plt.streamplot(X, Y, U, V, density=2)
+# # plt.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=10)
+# plt.plot(1, 0, 'ro', label='Kilde')
+# plt.plot(-1, 0, 'bo', label='Sluk')
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.legend()
+# # plt.axis('equal')
+# plt.show()
+
+
+# b)
+# from scipy import integrate
+
+h = 0.01
+# t = np.arange(-2, 2, h)
+# x = np.zeros(len(t))
+# y = np.zeros(len(t))
+
+# # Startverdi for (x, y) i (1, 0). y[0] er allerede 0
+# x[0] = 1
+
+def vx(x, y):
+    r1_sq_s = (x - 1)**2 + y**2
+    r2_sq_s = (x + 1)**2 + y**2
+    return L*(x - 1)/r1_sq_s - M*(x + 1)/r2_sq_s
+
+def vy(x, y):
+    r1_sq_s = (x - 1)**2 + y**2
+    r2_sq_s = (x + 1)**2 + y**2
+    return L*y/r1_sq_s - M*y/r2_sq_s
+
+# print(type(vx(x[0], y[0])))
+# print(type(vy(x[0], y[0])))
+
+# for i in range(len(t) - 1):
+#     x[i+1] = x[i] + h * vx(x[i], y[i])
+#     y[i+1] = y[i] + h * vy(x[i], y[i])
+
+# plt.plot(x, y)
+# plt.xlabel("x")
+# plt.ylabel("y")
+# plt.show()
+
+
+# AI
+start_x = [0.9, 0.9, 0.9, 0.9, 0.9]
+start_y = [-0.2, -0.1, 0, 0.1, 0.2]
+
+
+for j in range(len(start_x)):
+
+    x = start_x[j]
+    y = start_y[j]
+
+    x_bane = [x]
+    y_bane = [y]
+
+    for i in range(100000):
+
+        x_ny = x + h*vx(x, y)
+        y_ny = y + h*vy(x, y)
+
+        x = x_ny
+        y = y_ny
+
+        x_bane.append(x)
+        y_bane.append(y)
+
+        if np.sqrt((x+1)**2 + y**2) < 0.05:
+            break
+
+    plt.plot(x_bane, y_bane)
+
 plt.plot(1, 0, 'ro', label='Kilde')
 plt.plot(-1, 0, 'bo', label='Sluk')
+
 plt.xlabel('x')
 plt.ylabel('y')
+plt.axis('equal')
 plt.legend()
-# plt.axis('equal')
+plt.grid()
 plt.show()
