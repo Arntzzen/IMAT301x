@@ -147,33 +147,60 @@ def vy(x, y):
 # plt.show()
 
 # d)
+# import sympy as sp
+# from sympy import plot_implicit
+
+# # Definer variablene
+# x, y = sp.symbols('x y')
+
+# # Definer potensialfunksjonen
+# phi = (sp.log(sp.sqrt((x-1)**2 + y**2))
+#        - sp.log(sp.sqrt((x+1)**2 + y**2)))
+
+# # Velg verdier for nivåkurvene
+# nivaaer = np.linspace(-1, 1, 20)
+
+# # Tegn nivåkurvene
+# tegn = None
+
+# for c in nivaaer:
+#     new_plot = plot_implicit(
+#         sp.Eq(phi, c),
+#         (x, -4, 4),
+#         (y, -4, 4),
+#         show=False
+#     )
+
+#     if tegn is None:
+#         tegn = new_plot
+#     else:
+#         tegn.extend(new_plot)
+
+# tegn.show()
+
+
+
+# =============================================
+#                   Oppgave 6
+# =============================================
 import sympy as sp
-from sympy import plot_implicit
 
-# Definer variablene
-x, y = sp.symbols('x y')
+# Lager en symbolsk variabel t
+t = sp.symbols('t')
 
-# Definer potensialfunksjonen
-phi = (sp.log(sp.sqrt((x-1)**2 + y**2))
-       - sp.log(sp.sqrt((x+1)**2 + y**2)))
+# Definerer x(t) og y(t)
+x = 4 * sp.cos(t)**3
+y = 12 * sp.sin(t)**3
 
-# Velg verdier for nivåkurvene
-nivaaer = np.linspace(-1, 1, 20)
+# Deriverer x med hensyn på t
+dx = sp.diff(x, t)
 
-# Tegn nivåkurvene
-tegn = None
+# Setter opp integranden
+integrand = -y * dx
 
-for c in nivaaer:
-    new_plot = plot_implicit(
-        sp.Eq(phi, c),
-        (x, -4, 4),
-        (y, -4, 4),
-        show=False
-    )
+# Integrerer fra 0 til 2*pi
+areal = sp.integrate(integrand, (t, 0, 2*sp.pi))
 
-    if tegn is None:
-        tegn = new_plot
-    else:
-        tegn.extend(new_plot)
-
-tegn.show()
+# Skriver ut eksakt og numerisk svar
+print("Eksakt areal:", areal)
+print("Desimaltall:", float(areal))
